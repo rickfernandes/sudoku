@@ -1,20 +1,15 @@
-# https://www.geeksforgeeks.org/copy-python-deep-copy-shallow-copy/
-
 def print_grid(grid):
-	print('-------------------------')
+	for _ in range(25): print('-',end='')
+	print('')
 	for r in range(9):
 		print('|',end='')
 		for c in range(9):
-			if c in [2,5,8]:
-				print(grid[r][c],end='')
-			else:
-				print(grid[r][c],' ',end='')
-			if c in [2,5]:
-				print('|',end='')
+			if c in [2,5,8]: print(grid[r][c],end='')
+			else: print(grid[r][c],' ',end='')
+			if c in [2,5]: print('|',end='')
 		print('|')
 		if r-1 in [-2,1,4,7]:
-			for _ in range(25): 
-				print('-',end='')
+			for _ in range(25): print('-',end='')
 			print('')
 
 def queue_blank(grid):
@@ -52,6 +47,7 @@ def possible(row,col,n,grid):
 				return False
 	return True
 
+# This could be replaced with deepcopy from copy module
 def copy_grid(grid):
 	temp_grid = []
 	for row in grid:
@@ -98,12 +94,13 @@ def main():
 	[4,5,0,8,0,3,0,0,1],
 	[7,1,0,0,2,0,0,0,6],
 	[9,6,0,0,0,0,2,8,0],
-	[2,8,0,4,1,9,0,0,5],
-	[3,4,0,0,8,0,0,7,9]]
+	[0,0,0,0,1,9,0,0,5],
+	[0,0,0,0,0,0,0,0,0]]
 
 
 	print_grid(grid)
-	print_solutions(solve(grid),10)
+	solutions = solve(grid)
+	print_solutions(solutions,1)
 
 
 if __name__ == '__main__':
