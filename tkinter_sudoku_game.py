@@ -2,7 +2,7 @@ from copy import deepcopy
 from random import randint
 from tkinter import Tk, Canvas, Frame, BOTH, Button, X, ALL
 
-CELL = 70
+CELL = 20
 
 BORDER = int(CELL/10)
 BORDER_COLOR ='#006CFF'
@@ -107,7 +107,7 @@ class MainWindow():
 			
 		def clickedCell(self,event):
 			self.x, self.y = int((event.x-BORDER)/CELL), int((event.y-BORDER)/CELL)
-			if self.window.game.original[self.x][self.y] == 0:
+			if self.x < 9 and self.y < 9 and self.window.game.original[self.x][self.y] == 0:
 				self.drawCursor()
 
 class SudokuGame():
@@ -132,6 +132,7 @@ class SudokuGame():
 		self._drawNumbers(frame,self.board)
 		self._drawGrid(frame)
 		self.gameover = False
+		self.solutions = []
 
 	def SolveSudokuButton(self,frame,button):
 		if not self.gameover:
@@ -151,8 +152,6 @@ class SudokuGame():
 
 	def _drawGrid(self,frame):
 		for i in range(0,9):
-				# x, y = BORDER+i*CELL-1, BORDER+j*CELL-1
-				# frame.create_rectangle(x,y,x+CELL,y+CELL,outline=BORDER_COLOR)
 			x = BORDER+i*CELL-1
 			if i % 3 == 0:
 				frame.create_line(x,BORDER,x,HEIGHT-BORDER,fill=BORDER_COLOR,width=2)
@@ -183,7 +182,7 @@ def Possible(board,row,col,n):
 
 def Solve(board):
 	solutions = []
-	def QueueBlank():
+	def QueueBlank(board):
 		queue = {}
 		blanks = 0
 		for r in range(9):
@@ -212,8 +211,9 @@ def Solve(board):
 			return 
 		solution = deepcopy(board)
 		solutions.append(solution)
-	SolveSudoku(QueueBlank())
+	SolveSudoku(QueueBlank(board))
 	return solutions
+
 def InvertBoard(board):
 	return [[board[j][i] for j in range(len(board))] for i in range(len(board[0]))]
 
