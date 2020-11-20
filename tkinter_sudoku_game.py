@@ -2,7 +2,7 @@ from copy import deepcopy
 from random import randint
 from tkinter import Tk, Canvas, Frame, BOTH, Button, X, ALL
 
-CELL = 20
+CELL = 50
 
 BORDER = int(CELL/10)
 BORDER_COLOR ='#006CFF'

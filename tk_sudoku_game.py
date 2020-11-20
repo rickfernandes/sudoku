@@ -1,6 +1,6 @@
 from tkinter import Button, Tk, Canvas, Frame, BOTH, X, ALL
 from copy import deepcopy
-from threading import Thread
+from threading import Thread, enumerate
 from random import randint
 
 # Global variables
@@ -14,6 +14,9 @@ FONT_TYPE = 'Tahoma'
 # Fix global variables
 BUTTONS_SIZE = 84
 HEIGHT = WIDTH = 9 * CELL_SIZE + 6
+
+def WaitThread():
+	while len(enumerate()) > 1: True
 
 class MainWindow(Tk):
 	def __init__(self,board):
@@ -29,6 +32,7 @@ class MainWindow(Tk):
 		self.title('SUDOKU')
 		self.geometry(f'{WIDTH+2}x{HEIGHT+2 + BUTTONS_SIZE}')
 		self.config(bg=BACKGROUND_COLOR)
+		print('main window loaded and configured')
 
 	def InitiateGame(self):
 		self.Binder()
@@ -37,6 +41,7 @@ class MainWindow(Tk):
 		self.buttons.DrawButtons()
 		self.body.pack(fill=X)
 		self.buttons.pack(fill=X)
+		print('game initiated')
 
 	def Binder(self):
 		def __MoveHandler(event,window=self):
@@ -110,6 +115,8 @@ class Body(Canvas):
 				self.create_text(x, y, text=number, tags=f'number{x_pos}x{y_pos}', fill=NUMBER_COLOR, font=(FONT_TYPE,int(CELL_SIZE/3)))
 				if move_type != 'backwards':
 					self.inserted_numbers.append([x_pos,y_pos,number,'insert'])
+				# game.RemoveInvalidSolutions()
+
 
 	def DeleteNumber(self,game,x_pos,y_pos,**kwargs):
 		try: move_type = kwargs['move_type']
@@ -164,11 +171,18 @@ class Game():
 		for i in range(9):
 			if self.board[x_pos][i] == number or self.board[i][y_pos] == number: return False
 		x_temp, y_temp = (x_pos//3)*3, (y_pos//3)*3
-		
 		for i in range(3):
 			for j in range(3):
 				if self.board[x_temp+i][y_temp+j] == number: return False
 		return True
+
+	def RemoveInvalidSolutions(self):
+		WaitThread()
+		for solution in self.solutions:
+			for x in range(9):
+				for y in range(9):
+					if self.board[x][y] != 0 and self.board[x][y] != solution[x][y]:
+						self.solutions.remove(solution)
 
 	def SudokuSolver(self):
 		def QueueBlank(board):
@@ -201,6 +215,7 @@ class Game():
 			solution = deepcopy(self.board)
 			self.original_solutions.append(solution)
 		SolveSudoku(QueueBlank(self.board))
+		print('solutions thread finished')
 
 	def isGameOver(self):
 		rows = []
@@ -213,15 +228,7 @@ class Game():
 
 	def ResetGame(self):
 		self.board = deepcopy(self.original_board)
-
-	def RemoveSolution(self):
-		# is board in solutions
-		for row in range(9):
-			for col in range(9):
-				if self.original_board[row][col] == 0 and self.board[row][col] != 0:
-					for solution in self.solutions:
-						if self.board[row][col] != solution[row][col]:
-							self.solutions.remove()
+		self.solutions = deepcopy(self.original_solutions)
 
 class Buttons(Frame):
 	def __init__(self,mainwindow):
@@ -232,11 +239,12 @@ class Buttons(Frame):
 		self.back_button = Button(self, text='Move back',bd=0,command=lambda: self.MoveBackwards(mainwindow))
 
 	def ClearBoard(self,mainwindow):
+		WaitThread()
 		mainwindow.HardReset()
 
 	def SolveBoard(self,mainwindow):
+		WaitThread()
 		game = mainwindow.game
-		game.RemoveSolution()
 		if game.solutions == []:
 			mainwindow.body.InsertMiddleText('No possible solutions')
 		else:
