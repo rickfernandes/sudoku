@@ -18,12 +18,15 @@ HEIGHT = WIDTH = 9 * CELL_SIZE + 6
 def WaitThread():
 	while len(enumerate()) > 1: True
 
+def InvertBoard(board):
+	return [[board[j][i] for j in range(len(board))] for i in range(len(board[0]))]
+
 class MainWindow(Tk):
 	def __init__(self,board):
 		Tk.__init__(self)
 		self.body = Body()
 		self.cursor = Cursor()
-		self.game = Game(board)
+		self.game = Game(InvertBoard(board))
 		self.buttons = Buttons(self)
 		self.Config()
 		self.InitiateGame()
@@ -58,7 +61,7 @@ class MainWindow(Tk):
 			elif not self.game.gameover: self.body.InsertNumber(event.keysym,self.game,self.cursor.x_pos,self.cursor.y_pos)
 			
 			self.game.isGameOver()
-			
+
 			if self.game.gameover:
 				self.body.InsertMiddleText('Game over')
 			else:
@@ -115,7 +118,6 @@ class Body(Canvas):
 				self.create_text(x, y, text=number, tags=f'number{x_pos}x{y_pos}', fill=NUMBER_COLOR, font=(FONT_TYPE,int(CELL_SIZE/3)))
 				if move_type != 'backwards':
 					self.inserted_numbers.append([x_pos,y_pos,number,'insert'])
-				# game.RemoveInvalidSolutions()
 
 
 	def DeleteNumber(self,game,x_pos,y_pos,**kwargs):
@@ -165,7 +167,6 @@ class Game():
 		self.original_board = deepcopy(board)
 		self.original_solutions = []
 		Thread(target=self.SudokuSolver).start()
-		self.solutions = deepcopy(self.original_solutions)
 
 	def PossibleMove(self, number, x_pos, y_pos):
 		for i in range(9):
@@ -177,12 +178,15 @@ class Game():
 		return True
 
 	def RemoveInvalidSolutions(self):
-		WaitThread()
-		for solution in self.solutions:
+		def MatchSolution(board,solution):
 			for x in range(9):
 				for y in range(9):
-					if self.board[x][y] != 0 and self.board[x][y] != solution[x][y]:
-						self.solutions.remove(solution)
+					if board[x][y] != 0 and board[x][y] != solution[x][y]:
+						return False
+			return True
+		for s in range(len(self.solutions)-1,-1,-1):
+			if not MatchSolution(self.board,self.solutions[s]):
+				del self.solutions[s]
 
 	def SudokuSolver(self):
 		def QueueBlank(board):
@@ -240,11 +244,15 @@ class Buttons(Frame):
 
 	def ClearBoard(self,mainwindow):
 		WaitThread()
+		print('board cleared')
 		mainwindow.HardReset()
+
 
 	def SolveBoard(self,mainwindow):
 		WaitThread()
 		game = mainwindow.game
+		game.solutions = deepcopy(game.original_solutions)
+		game.RemoveInvalidSolutions()
 		if game.solutions == []:
 			mainwindow.body.InsertMiddleText('No possible solutions')
 		else:
@@ -272,17 +280,6 @@ class Buttons(Frame):
 
 if __name__ == '__main__':
 	board = [
-		[5,3,2,9,4,6,1,7,8],
-		[6,7,4,1,3,8,9,5,2],
-		[1,9,8,5,7,2,3,6,4],
-		[8,2,9,7,0,0,5,4,0],
-		[4,5,6,8,9,3,7,2,1],
-		[7,1,3,4,2,5,8,9,6],
-		[9,6,1,3,5,4,2,8,7],
-		[2,8,7,6,0,9,4,3,5],
-		[3,4,5,2,8,7,6,1,9]
-		]
-	board = [
 		[0,0,0,0,0,0,0,0,0],
 		[0,0,0,0,0,0,0,0,0],
 		[0,0,0,0,0,0,0,0,0],
@@ -293,4 +290,5 @@ if __name__ == '__main__':
 		[0,0,7,6,0,9,4,0,0],
 		[0,0,5,2,8,7,6,0,0]
 		]
-	main = MainWindow(board).mainloop()
+
+	MainWindow(board).mainloop()

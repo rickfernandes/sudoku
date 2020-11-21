@@ -80,7 +80,7 @@ def solve(grid):
 def print_solutions(solutions,qty):
 	if qty > len(solutions): qty = len(solutions)
 	print(f'The grid has {len(solutions)} solutions')
-	print(f'Printing {qty} solutions')
+	print(f'Printing {qty} solution(s)')
 	for i in range(qty):
 		print(f'--Solution {i+1}--')
 		print_grid(solutions[i])
@@ -100,7 +100,7 @@ def main():
 
 	print_grid(grid)
 	solutions = solve(grid)
-	print_solutions(solutions,1)
+	print_solutions(solutions,10)
 
 
 if __name__ == '__main__':
