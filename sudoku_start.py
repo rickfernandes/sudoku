@@ -42,7 +42,5 @@ def GetBoard():
 		board = board_name
 	return board.replace('.sudoku','')
 
-
-board_name = GetBoard()
-board = ConvertBoard(board_name)
+board = ConvertBoard(GetBoard())
 MainWindow(board).mainloop()
