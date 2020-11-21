@@ -1,7 +1,9 @@
-from tkinter import Button, Tk, Canvas, Frame, BOTH, X, ALL
+from tkinter import Button, Tk, Canvas, Frame, BOTH, X, ALL, ttk
 from copy import deepcopy
 from threading import Thread, enumerate
 from random import randint
+
+
 
 # Global variables
 GRID_COLOR = '#00444d'
@@ -12,7 +14,7 @@ CELL_SIZE = 60
 FONT_TYPE = 'Tahoma'
 
 # Fix global variables
-BUTTONS_SIZE = 84
+BUTTONS_SIZE = 75
 HEIGHT = WIDTH = 9 * CELL_SIZE + 6
 
 def WaitThread():
@@ -238,9 +240,9 @@ class Buttons(Frame):
 	def __init__(self,mainwindow):
 		Frame.__init__(self)
 		self.config(bg='green')
-		self.clear_button = Button(self, text='Clear numbers',bd=0,command=lambda: self.ClearBoard(mainwindow))
-		self.solve_button = Button(self, text='Solve sudoku',bd=0,command=lambda: self.SolveBoard(mainwindow))
-		self.back_button = Button(self, text='Move back',bd=0,command=lambda: self.MoveBackwards(mainwindow))
+		self.clear_button = ttk.Button(self, text='Clear numbers',command=lambda: self.ClearBoard(mainwindow))
+		self.solve_button = ttk.Button(self, text='Solve sudoku',command=lambda: self.SolveBoard(mainwindow))
+		self.back_button = ttk.Button(self, text='Move back',command=lambda: self.MoveBackwards(mainwindow))
 
 	def ClearBoard(self,mainwindow):
 		WaitThread()
