@@ -1,10 +1,11 @@
-
 # -*- coding: utf-8 -*-
 """
 This module is a simple sudoku solver that will return all possible solutions
 for the grid.
 
-`Compatible with Python3.7 or higher`
+`Compatible with Python3.7 or higher`\n
+
+_Repository:_ https://github.com/rickfernandes/sudoku_solver
 """
 
 from numpy import matrix

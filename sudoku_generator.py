@@ -1,5 +1,16 @@
 from random import sample, randint
 
+# -*- coding: utf-8 -*-
+"""
+This module is a simple sudoku generator that will write `.sudoku` files with sudoku boards.
+
+`Compatible with Python3.7 or higher`\n
+
+_Repository:_ https://github.com/rickfernandes/sudoku_solver
+"""
+
+FOLDER = 'boards/'
+
 def CreateOrigin():
 	base = 3
 	side  = base*base
@@ -24,10 +35,10 @@ def RemoveNums(board,num):
 def WriteFiles(n,rem):
 	for b in range(n):
 		board = RemoveNums(CreateOrigin(),rem)
-		with open('boards/s{:04d}.sudoku'.format(b), 'w') as file:
+		with open('{}/s{:04d}.sudoku'.format(FOLDER,b), 'w') as file:
 			for row in range(9):
 				for col in range(9):
 					file.write(str(board[row][col]))
 				file.write('\n')
 
-WriteFiles(10,randint(10,30))
+WriteFiles(15,randint(10,30))
