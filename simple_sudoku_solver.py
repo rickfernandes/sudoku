@@ -23,8 +23,6 @@ grid = [[5,3,0,0,7,0,0,0,0],
 
 solution = 1
 """varible used to keep track of the number of solutions"""
-
-
 def possible(y,x,n):
 	"""Function to determine if a number can be inserted in a certain position
 	of the `grid`
@@ -33,6 +31,9 @@ def possible(y,x,n):
 		y (int): `grid` row.
 		x (int): `grid` column.
 		n (int): number to be inserted in row `y` and column `x`.
+
+	Dependencies:
+		___None___
 
 	Returns:
 		bool: can `n` be inserted. _False_ if not possible. _True_ otherwise.
