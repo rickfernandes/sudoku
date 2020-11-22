@@ -24,7 +24,7 @@ def CreateOrigin():
 
 	Returns:
 		`array` (matrix): returns a `9x9` filled valid suduko board.
-    """
+	"""
 	base = 3
 	side  = base*base
 	def Pattern(r,c):
@@ -58,7 +58,7 @@ def RemoveNums(board,num):
 
 	Returns:
 		board (matrix): returns a `9x9` (matrix) sudoku board with random `0`s
-    """
+	"""
 	positions = [(n//9,n%9) for n in range(0,81)]
 	"""Array with all possible positions in the matrix board"""
 
@@ -84,9 +84,9 @@ def WriteFiles(n,rem):
 
 	Returns:
 		__None__
-    """
-    if n > 10000: n = 10000
-    """Makes sure that at most 10,000 boards will be created. Due to file naming (i.e. :04d)"""
+	"""
+	if n > 10000: n = 10000
+	"""Makes sure that at most 10,000 boards will be created. Due to file naming (i.e. :04d)"""
 	for b in range(n):
 		"""Loops n times creating and writing a board"""
 		board = RemoveNums(CreateOrigin(),rem)
@@ -98,3 +98,4 @@ def WriteFiles(n,rem):
 
 if __name__ == '__main__':
 	WriteFiles(15,randint(10,30))
+	print('finished	')

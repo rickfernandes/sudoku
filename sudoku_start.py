@@ -9,7 +9,7 @@ __External modules__: `random`, `os`, `argparse`
 _Repository:_ https://github.com/rickfernandes/sudoku_solver
 """
 
-from tk_sudoku_game_advanced import MainWindow
+from tk_sudoku_game import MainWindow
 from os import listdir
 from random import randint
 from argparse import ArgumentParser
@@ -76,9 +76,9 @@ def GetBoards():
 	"""
 	boards = listdir(f'./{FOLDER}')
 	for board in boards:
-		if '.sudoku' not in file:
+		if '.sudoku' not in board:
 			"""Loops through the files in `FOLDER` and removes if it's not .sudoku"""
-			boards.remove(file)
+			boards.remove(board)
 
 	try: boards.remove('debug.sudoku')
 	except: pass
