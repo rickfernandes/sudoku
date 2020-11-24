@@ -16,18 +16,19 @@ _*This repository contains sudoku solver, sudoku board creator and sudoku game (
 ---
 
 ## Repository explanation ##
-This repository has 3 code examples that use memoization. I advise to check them in the order below:
+This repository have a couple of code examples with sudoku solvers, with and without using *global* variables. They all use recursion when solving.
 
 ---
 ### Notes: ###
-*All codes use Python3*
+*All codes use Python3.7*
 Modules used:
 
 |Module|Attribute|
 |:-----|:-----|
-|functools|lru_cache|
-|random|randint|
-|time|perf_counter|
-|requests|get|
-|json|loads|
-|datetime|*several*|
+|numpy|matrix|
+|random|sample,randint|
+|os|listdir|
+|threading|Thread, enumerate|
+|copy|deepcopy|
+|argparse|ArgumentParser|
+|tkinter|*several*|
