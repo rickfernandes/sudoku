@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.9.1" />
 <title>sudoku_start API documentation</title>
-<meta name="description" content="This module is a sudoku generator that will write `.sudoku` files with sudoku boards …" />
+<meta name="description" content="This module is a sudoku generator that will load a `.sudoku` file with sudoku boards. And runs `MainWindow` from tk_sudoku_game …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,7 +22,7 @@
 <h1 class="title">Module <code>sudoku_start</code></h1>
 </header>
 <section id="section-intro">
-<p>This module is a sudoku generator that will write <code>.sudoku</code> files with sudoku boards.</p>
+<p>This module is a sudoku generator that will load a <code>.sudoku</code> file with sudoku boards. And runs <code>MainWindow</code> from tk_sudoku_game.</p>
 <p><strong>External modules</strong>: <code>random</code>, <code>os</code>, <code>argparse</code></p>
 <p><code>Compatible with Python3.7 or higher</code></p>
 <p><em>Repository:</em> <a href="https://github.com/rickfernandes/sudoku_solver">https://github.com/rickfernandes/sudoku_solver</a></p>
@@ -32,7 +32,7 @@
 </summary>
 <pre><code class="python"># -*- coding: utf-8 -*-
 &#34;&#34;&#34;
-This module is a sudoku generator that will write `.sudoku` files with sudoku boards.
+This module is a sudoku generator that will load a `.sudoku` file with sudoku boards. And runs `MainWindow` from tk_sudoku_game.
 
 __External modules__: `random`, `os`, `argparse`
 
@@ -41,7 +41,7 @@ __External modules__: `random`, `os`, `argparse`
 _Repository:_ https://github.com/rickfernandes/sudoku_solver
 &#34;&#34;&#34;
 
-from tk_sudoku_game_advanced import MainWindow
+from tk_sudoku_game import MainWindow
 from os import listdir
 from random import randint
 from argparse import ArgumentParser
@@ -108,9 +108,9 @@ def GetBoards():
         &#34;&#34;&#34;
         boards = listdir(f&#39;./{FOLDER}&#39;)
         for board in boards:
-                if &#39;.sudoku&#39; not in file:
+                if &#39;.sudoku&#39; not in board:
                         &#34;&#34;&#34;Loops through the files in `FOLDER` and removes if it&#39;s not .sudoku&#34;&#34;&#34;
-                        boards.remove(file)
+                        boards.remove(board)
 
         try: boards.remove(&#39;debug.sudoku&#39;)
         except: pass
@@ -271,9 +271,9 @@ if __name__ == &#39;__main__&#39;:
         &#34;&#34;&#34;
         boards = listdir(f&#39;./{FOLDER}&#39;)
         for board in boards:
-                if &#39;.sudoku&#39; not in file:
+                if &#39;.sudoku&#39; not in board:
                         &#34;&#34;&#34;Loops through the files in `FOLDER` and removes if it&#39;s not .sudoku&#34;&#34;&#34;
-                        boards.remove(file)
+                        boards.remove(board)
 
         try: boards.remove(&#39;debug.sudoku&#39;)
         except: pass

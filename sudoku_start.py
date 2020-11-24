@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This module is a sudoku generator that will write `.sudoku` files with sudoku boards.
+This module is a sudoku generator that will load a `.sudoku` file with sudoku boards. And runs `MainWindow` from tk_sudoku_game.
 
 __External modules__: `random`, `os`, `argparse`
 

@@ -46,7 +46,20 @@ __External modules__: _None_
 
 _Repository:_ https://github.com/rickfernandes/sudoku_solver
 &#34;&#34;&#34;
+
+
 def print_grid(grid):
+        &#34;&#34;&#34;Function to print the sudoku board with `|` and `-` delimiters.
+
+        Args:
+                `grid` (matrix): valid matrix representing the sudoku board to be printed.
+
+        Dependencies:
+                __None__
+
+        Returns:
+                __None__
+    &#34;&#34;&#34;
         for _ in range(25): print(&#39;-&#39;,end=&#39;&#39;)
         print(&#39;&#39;)
         for r in range(9):
@@ -61,11 +74,24 @@ def print_grid(grid):
                         print(&#39;&#39;)
 
 def queue_blank(grid):
-        queue = {}
-        blanks = 0
+        &#34;&#34;&#34;Creates a queue with the blank positions (i.e. `0`s) of grid and the quantity of blank spaces
+        on its row, column and square.
+
+        Args:
+                `grid` (matrix): valid matrix representing the sudoku board to be printed.
+
+        Dependencies:
+                __None__
+
+        Returns:
+                `queue` (array): sorted array, from positions with least blanks to most blanks
+    &#34;&#34;&#34;
+        queue, blanks = {}, 0
         for r in range(9):
                 for c in range(9):
+                        &#34;&#34;&#34;Loops through all `grid` positions.&#34;&#34;&#34;
                         if grid[r][c] == 0:
+                                &#34;&#34;&#34;Gets all blanks for each position and add to `blanks`.&#34;&#34;&#34;
                                 for i in range(9):
                                         if grid[i][c] == 0:
                                                 blanks += 1
@@ -77,13 +103,32 @@ def queue_blank(grid):
                                         for j in range(3):
                                                 if grid[r_temp+i][c_temp+j] == 0:
                                                         blanks += 1
-                        if blanks != 0:
+                        if blanks &gt; 0:
+                                &#34;&#34;&#34;Add position to queue with the amount of blanks, if blanks &gt; 0&#34;&#34;&#34;
                                 queue.update({(r,c):blanks})
                         blanks = 0
-        temp_queue = sorted(queue.items(), key=lambda x: x[1])
-        return [v[0] for v in temp_queue]
+        queue = sorted(queue.items(), key=lambda x: x[1])
+        &#34;&#34;&#34;Sorts the queue&#34;&#34;&#34;
+        queue = [v[0] for v in queue]
+        &#34;&#34;&#34;Extracts the positions, removing the `blanks` key&#34;&#34;&#34;
+        return queue
 
 def possible(row,col,n,grid):
+        &#34;&#34;&#34;Function to determine if a number can be inserted in a certain position
+        of the `grid`
+
+        Args:
+                `row` (int): `grid` row.\n
+                `col` (int): `grid` column.\n
+                `n` (int): number to be inserted in `row` and `column` position.\n
+                `grid` (matrix): valid matrix representing the sudoku board to be printed.\n
+
+        Dependencies:
+                ___None___
+
+        Returns:
+                bool: can `n` be inserted. _False_ if not possible. _True_ otherwise.
+    &#34;&#34;&#34;
         for i in range(9):
                 if grid[row][i] == n or grid[i][col] == n:
                         return False
@@ -95,8 +140,19 @@ def possible(row,col,n,grid):
                                 return False
         return True
 
-# This could be replaced with deepcopy from copy module
 def copy_grid(grid):
+        &#34;&#34;&#34;Function to correctly copy a `grid` to a new variable.       
+        _This could be replaced with `deepcopy` from `copy` module_
+        
+        Args:
+                `grid` (matrix): valid matrix representing the sudoku board to be printed.
+
+        Dependencies:
+                ___None___
+
+        Returns:
+                `temp_grid` (matrix): valid matrix representing the sudoku board to be printed.
+    &#34;&#34;&#34;
         temp_grid = []
         for row in grid:
                 temp_row = []
@@ -107,9 +163,20 @@ def copy_grid(grid):
 
 
 def solve(grid):
-        solutions = []
+        &#34;&#34;&#34;Function to get all possible solutions for `grid`.   
+        
+        Args:
+                `grid` (matrix): valid matrix representing the sudoku board to be printed.
 
+        Dependencies:
+                ___None___
+
+        Returns:
+                `solutions` (array): array of matrices with all possible solutions for `grid`.
+    &#34;&#34;&#34;
+        solutions = []
         def solve_sudoku(grid,queue):
+                &#34;&#34;&#34;Recursively solve the grid and add the `solution` to the solutions array.&#34;&#34;&#34;
                 if queue:
                         row = queue[0][0]
                         col = queue[0][1]
@@ -126,6 +193,18 @@ def solve(grid):
         return solutions
 
 def print_solutions(solutions,qty):
+        &#34;&#34;&#34;Function to print a certain `qty` of solutions.      
+        
+        Args:
+                `solutions` (array): array of matrices with all possible solutions for `grid`.\n
+                `qty` (int): quantity of solutions to be printed.\n
+
+        Dependencies:
+                ___None___
+
+        Returns:
+                __None__
+    &#34;&#34;&#34;
         if qty &gt; len(solutions): qty = len(solutions)
         print(f&#39;The grid has {len(solutions)} solutions&#39;)
         print(f&#39;Printing {qty} solution(s)&#39;)
@@ -134,6 +213,7 @@ def print_solutions(solutions,qty):
                 print_grid(solutions[i])
 
 def main():
+        &#34;&#34;&#34;Main function that defines and prints `grid` than prints `n` solutions.      &#34;&#34;&#34;
         grid = [
         [5,3,2,0,0,0,0,0,0],
         [6,7,4,0,0,0,0,0,0],
@@ -145,10 +225,10 @@ def main():
         [0,0,0,0,1,9,0,0,5],
         [0,0,0,0,0,0,0,0,0]]
 
-
+        n = 10
         print_grid(grid)
         solutions = solve(grid)
-        print_solutions(solutions,10)
+        print_solutions(solutions,n)
 
 
 if __name__ == &#39;__main__&#39;:
@@ -166,12 +246,31 @@ if __name__ == &#39;__main__&#39;:
 <span>def <span class="ident">copy_grid</span></span>(<span>grid)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Function to correctly copy a <code>grid</code> to a new variable.<br>
+<em>This could be replaced with <code>deepcopy</code> from <code>copy</code> module</em></p>
+<h2 id="args">Args</h2>
+<p><code>grid</code> (matrix): valid matrix representing the sudoku board to be printed.</p>
+<h2 id="dependencies">Dependencies</h2>
+<p><strong><em>None</em></strong></p>
+<h2 id="returns">Returns</h2>
+<p><code>temp_grid</code> (matrix): valid matrix representing the sudoku board to be printed.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def copy_grid(grid):
+        &#34;&#34;&#34;Function to correctly copy a `grid` to a new variable.       
+        _This could be replaced with `deepcopy` from `copy` module_
+        
+        Args:
+                `grid` (matrix): valid matrix representing the sudoku board to be printed.
+
+        Dependencies:
+                ___None___
+
+        Returns:
+                `temp_grid` (matrix): valid matrix representing the sudoku board to be printed.
+    &#34;&#34;&#34;
         temp_grid = []
         for row in grid:
                 temp_row = []
@@ -185,12 +284,13 @@ if __name__ == &#39;__main__&#39;:
 <span>def <span class="ident">main</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Main function that defines and prints <code>grid</code> than prints <code>n</code> solutions.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def main():
+        &#34;&#34;&#34;Main function that defines and prints `grid` than prints `n` solutions.      &#34;&#34;&#34;
         grid = [
         [5,3,2,0,0,0,0,0,0],
         [6,7,4,0,0,0,0,0,0],
@@ -202,22 +302,50 @@ if __name__ == &#39;__main__&#39;:
         [0,0,0,0,1,9,0,0,5],
         [0,0,0,0,0,0,0,0,0]]
 
-
+        n = 10
         print_grid(grid)
         solutions = solve(grid)
-        print_solutions(solutions,10)</code></pre>
+        print_solutions(solutions,n)</code></pre>
 </details>
 </dd>
 <dt id="terminal_sudoku_solver.possible"><code class="name flex">
 <span>def <span class="ident">possible</span></span>(<span>row, col, n, grid)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Function to determine if a number can be inserted in a certain position
+of the <code>grid</code></p>
+<h2 id="args">Args</h2>
+<p><code>row</code> (int): <code>grid</code> row.</p>
+<p><code>col</code> (int): <code>grid</code> column.</p>
+<p><code>n</code> (int): number to be inserted in <code>row</code> and <code>column</code> position.</p>
+<p><code>grid</code> (matrix): valid matrix representing the sudoku board to be printed.</p>
+<h2 id="dependencies">Dependencies</h2>
+<p><strong><em>None</em></strong></p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>can <code>n</code> be inserted. <em>False</em> if not possible. <em>True</em> otherwise.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def possible(row,col,n,grid):
+        &#34;&#34;&#34;Function to determine if a number can be inserted in a certain position
+        of the `grid`
+
+        Args:
+                `row` (int): `grid` row.\n
+                `col` (int): `grid` column.\n
+                `n` (int): number to be inserted in `row` and `column` position.\n
+                `grid` (matrix): valid matrix representing the sudoku board to be printed.\n
+
+        Dependencies:
+                ___None___
+
+        Returns:
+                bool: can `n` be inserted. _False_ if not possible. _True_ otherwise.
+    &#34;&#34;&#34;
         for i in range(9):
                 if grid[row][i] == n or grid[i][col] == n:
                         return False
@@ -234,12 +362,29 @@ if __name__ == &#39;__main__&#39;:
 <span>def <span class="ident">print_grid</span></span>(<span>grid)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Function to print the sudoku board with <code>|</code> and <code>-</code> delimiters.</p>
+<h2 id="args">Args</h2>
+<p><code>grid</code> (matrix): valid matrix representing the sudoku board to be printed.</p>
+<h2 id="dependencies">Dependencies</h2>
+<p><strong>None</strong></p>
+<h2 id="returns">Returns</h2>
+<p><strong>None</strong></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def print_grid(grid):
+        &#34;&#34;&#34;Function to print the sudoku board with `|` and `-` delimiters.
+
+        Args:
+                `grid` (matrix): valid matrix representing the sudoku board to be printed.
+
+        Dependencies:
+                __None__
+
+        Returns:
+                __None__
+    &#34;&#34;&#34;
         for _ in range(25): print(&#39;-&#39;,end=&#39;&#39;)
         print(&#39;&#39;)
         for r in range(9):
@@ -258,12 +403,31 @@ if __name__ == &#39;__main__&#39;:
 <span>def <span class="ident">print_solutions</span></span>(<span>solutions, qty)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Function to print a certain <code>qty</code> of solutions. </p>
+<h2 id="args">Args</h2>
+<p><code>solutions</code> (array): array of matrices with all possible solutions for <code>grid</code>.</p>
+<p><code>qty</code> (int): quantity of solutions to be printed.</p>
+<h2 id="dependencies">Dependencies</h2>
+<p><strong><em>None</em></strong></p>
+<h2 id="returns">Returns</h2>
+<p><strong>None</strong></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def print_solutions(solutions,qty):
+        &#34;&#34;&#34;Function to print a certain `qty` of solutions.      
+        
+        Args:
+                `solutions` (array): array of matrices with all possible solutions for `grid`.\n
+                `qty` (int): quantity of solutions to be printed.\n
+
+        Dependencies:
+                ___None___
+
+        Returns:
+                __None__
+    &#34;&#34;&#34;
         if qty &gt; len(solutions): qty = len(solutions)
         print(f&#39;The grid has {len(solutions)} solutions&#39;)
         print(f&#39;Printing {qty} solution(s)&#39;)
@@ -276,17 +440,37 @@ if __name__ == &#39;__main__&#39;:
 <span>def <span class="ident">queue_blank</span></span>(<span>grid)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Creates a queue with the blank positions (i.e. <code>0</code>s) of grid and the quantity of blank spaces
+on its row, column and square.</p>
+<h2 id="args">Args</h2>
+<p><code>grid</code> (matrix): valid matrix representing the sudoku board to be printed.</p>
+<h2 id="dependencies">Dependencies</h2>
+<p><strong>None</strong></p>
+<h2 id="returns">Returns</h2>
+<p><code>queue</code> (array): sorted array, from positions with least blanks to most blanks</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def queue_blank(grid):
-        queue = {}
-        blanks = 0
+        &#34;&#34;&#34;Creates a queue with the blank positions (i.e. `0`s) of grid and the quantity of blank spaces
+        on its row, column and square.
+
+        Args:
+                `grid` (matrix): valid matrix representing the sudoku board to be printed.
+
+        Dependencies:
+                __None__
+
+        Returns:
+                `queue` (array): sorted array, from positions with least blanks to most blanks
+    &#34;&#34;&#34;
+        queue, blanks = {}, 0
         for r in range(9):
                 for c in range(9):
+                        &#34;&#34;&#34;Loops through all `grid` positions.&#34;&#34;&#34;
                         if grid[r][c] == 0:
+                                &#34;&#34;&#34;Gets all blanks for each position and add to `blanks`.&#34;&#34;&#34;
                                 for i in range(9):
                                         if grid[i][c] == 0:
                                                 blanks += 1
@@ -298,26 +482,48 @@ if __name__ == &#39;__main__&#39;:
                                         for j in range(3):
                                                 if grid[r_temp+i][c_temp+j] == 0:
                                                         blanks += 1
-                        if blanks != 0:
+                        if blanks &gt; 0:
+                                &#34;&#34;&#34;Add position to queue with the amount of blanks, if blanks &gt; 0&#34;&#34;&#34;
                                 queue.update({(r,c):blanks})
                         blanks = 0
-        temp_queue = sorted(queue.items(), key=lambda x: x[1])
-        return [v[0] for v in temp_queue]</code></pre>
+        queue = sorted(queue.items(), key=lambda x: x[1])
+        &#34;&#34;&#34;Sorts the queue&#34;&#34;&#34;
+        queue = [v[0] for v in queue]
+        &#34;&#34;&#34;Extracts the positions, removing the `blanks` key&#34;&#34;&#34;
+        return queue</code></pre>
 </details>
 </dd>
 <dt id="terminal_sudoku_solver.solve"><code class="name flex">
 <span>def <span class="ident">solve</span></span>(<span>grid)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Function to get all possible solutions for <code>grid</code>.
+</p>
+<h2 id="args">Args</h2>
+<p><code>grid</code> (matrix): valid matrix representing the sudoku board to be printed.</p>
+<h2 id="dependencies">Dependencies</h2>
+<p><strong><em>None</em></strong></p>
+<h2 id="returns">Returns</h2>
+<p><code>solutions</code> (array): array of matrices with all possible solutions for <code>grid</code>.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def solve(grid):
-        solutions = []
+        &#34;&#34;&#34;Function to get all possible solutions for `grid`.   
+        
+        Args:
+                `grid` (matrix): valid matrix representing the sudoku board to be printed.
 
+        Dependencies:
+                ___None___
+
+        Returns:
+                `solutions` (array): array of matrices with all possible solutions for `grid`.
+    &#34;&#34;&#34;
+        solutions = []
         def solve_sudoku(grid,queue):
+                &#34;&#34;&#34;Recursively solve the grid and add the `solution` to the solutions array.&#34;&#34;&#34;
                 if queue:
                         row = queue[0][0]
                         col = queue[0][1]

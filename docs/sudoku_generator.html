@@ -43,7 +43,7 @@ _Repository:_ https://github.com/rickfernandes/sudoku_solver
 from random import sample, randint
 
 FOLDER = &#39;boards/&#39;
-&#34;&#34;&#34;Destination folder where the `.sudoku` files will be save&#34;&#34;&#34;
+&#34;&#34;&#34;Destination folder where the `.sudoku` files will be save.&#34;&#34;&#34;
 
 def CreateOrigin():
         &#34;&#34;&#34;Function to create a full sudoku board (matrix) with random numbers.
@@ -56,7 +56,7 @@ def CreateOrigin():
 
         Returns:
                 `array` (matrix): returns a `9x9` filled valid suduko board.
-    &#34;&#34;&#34;
+        &#34;&#34;&#34;
         base = 3
         side  = base*base
         def Pattern(r,c):
@@ -90,7 +90,7 @@ def RemoveNums(board,num):
 
         Returns:
                 board (matrix): returns a `9x9` (matrix) sudoku board with random `0`s
-    &#34;&#34;&#34;
+        &#34;&#34;&#34;
         positions = [(n//9,n%9) for n in range(0,81)]
         &#34;&#34;&#34;Array with all possible positions in the matrix board&#34;&#34;&#34;
 
@@ -104,19 +104,23 @@ def RemoveNums(board,num):
         return board
 
 def WriteFiles(n,rem):
-        &#34;&#34;&#34;Function to write boards (as flat string) to `.sudoku` files in `FOLDER` folder.
+        &#34;&#34;&#34;Function to create and write boards (as flat string) to `.sudoku` files in `FOLDER` folder.
+        The boards will have `rem` missing elements (i.e. matrix positions with `0`). It has a hard limit of 10,000 boards.
 
         Args:
-                `board` (matrix): valid filled sudoku board.\n
-                `num` (int): quantity of numbers to be removed.
+                `n` (int): number of boards to be created/written\n
+                `rem` (int): quantity of numbers to be removed from each board.
 
         Dependencies:
-                `randint()` (function): from `random` module
+                __None__
 
         Returns:
-                board (matrix): returns a `9x9` (matrix) sudoku board with random `0`s
-    &#34;&#34;&#34;
+                __None__
+        &#34;&#34;&#34;
+        if n &gt; 10000: n = 10000
+        &#34;&#34;&#34;Makes sure that at most 10,000 boards will be created. Due to file naming (i.e. :04d)&#34;&#34;&#34;
         for b in range(n):
+                &#34;&#34;&#34;Loops n times creating and writing a board&#34;&#34;&#34;
                 board = RemoveNums(CreateOrigin(),rem)
                 with open(&#39;{}/s{:04d}.sudoku&#39;.format(FOLDER,b), &#39;w&#39;) as file:
                         for row in range(9):
@@ -124,7 +128,9 @@ def WriteFiles(n,rem):
                                         file.write(str(board[row][col]))
                                 file.write(&#39;\n&#39;)
 
-WriteFiles(15,randint(10,30))</code></pre>
+if __name__ == &#39;__main__&#39;:
+        WriteFiles(15,randint(10,30))
+        print(&#39;finished &#39;)</code></pre>
 </details>
 </section>
 <section>
@@ -134,7 +140,7 @@ WriteFiles(15,randint(10,30))</code></pre>
 <dl>
 <dt id="sudoku_generator.FOLDER"><code class="name">var <span class="ident">FOLDER</span></code></dt>
 <dd>
-<div class="desc"><p>Destination folder where the <code>.sudoku</code> files will be save</p></div>
+<div class="desc"><p>Destination folder where the <code>.sudoku</code> files will be save.</p></div>
 </dd>
 </dl>
 </section>
@@ -167,7 +173,7 @@ WriteFiles(15,randint(10,30))</code></pre>
 
         Returns:
                 `array` (matrix): returns a `9x9` filled valid suduko board.
-    &#34;&#34;&#34;
+        &#34;&#34;&#34;
         base = 3
         side  = base*base
         def Pattern(r,c):
@@ -218,7 +224,7 @@ WriteFiles(15,randint(10,30))</code></pre>
 
         Returns:
                 board (matrix): returns a `9x9` (matrix) sudoku board with random `0`s
-    &#34;&#34;&#34;
+        &#34;&#34;&#34;
         positions = [(n//9,n%9) for n in range(0,81)]
         &#34;&#34;&#34;Array with all possible positions in the matrix board&#34;&#34;&#34;
 
@@ -236,32 +242,37 @@ WriteFiles(15,randint(10,30))</code></pre>
 <span>def <span class="ident">WriteFiles</span></span>(<span>n, rem)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Function to write boards (as flat string) to <code>.sudoku</code> files in <code><a title="sudoku_generator.FOLDER" href="#sudoku_generator.FOLDER">FOLDER</a></code> folder.</p>
+<div class="desc"><p>Function to create and write boards (as flat string) to <code>.sudoku</code> files in <code><a title="sudoku_generator.FOLDER" href="#sudoku_generator.FOLDER">FOLDER</a></code> folder.
+The boards will have <code>rem</code> missing elements (i.e. matrix positions with <code>0</code>). It has a hard limit of 10,000 boards.</p>
 <h2 id="args">Args</h2>
-<p><code>board</code> (matrix): valid filled sudoku board.</p>
-<p><code>num</code> (int): quantity of numbers to be removed.</p>
+<p><code>n</code> (int): number of boards to be created/written</p>
+<p><code>rem</code> (int): quantity of numbers to be removed from each board.</p>
 <h2 id="dependencies">Dependencies</h2>
-<p><code>randint()</code> (function): from <code>random</code> module</p>
+<p><strong>None</strong></p>
 <h2 id="returns">Returns</h2>
-<p>board (matrix): returns a <code>9x9</code> (matrix) sudoku board with random <code>0</code>s</p></div>
+<p><strong>None</strong></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def WriteFiles(n,rem):
-        &#34;&#34;&#34;Function to write boards (as flat string) to `.sudoku` files in `FOLDER` folder.
+        &#34;&#34;&#34;Function to create and write boards (as flat string) to `.sudoku` files in `FOLDER` folder.
+        The boards will have `rem` missing elements (i.e. matrix positions with `0`). It has a hard limit of 10,000 boards.
 
         Args:
-                `board` (matrix): valid filled sudoku board.\n
-                `num` (int): quantity of numbers to be removed.
+                `n` (int): number of boards to be created/written\n
+                `rem` (int): quantity of numbers to be removed from each board.
 
         Dependencies:
-                `randint()` (function): from `random` module
+                __None__
 
         Returns:
-                board (matrix): returns a `9x9` (matrix) sudoku board with random `0`s
-    &#34;&#34;&#34;
+                __None__
+        &#34;&#34;&#34;
+        if n &gt; 10000: n = 10000
+        &#34;&#34;&#34;Makes sure that at most 10,000 boards will be created. Due to file naming (i.e. :04d)&#34;&#34;&#34;
         for b in range(n):
+                &#34;&#34;&#34;Loops n times creating and writing a board&#34;&#34;&#34;
                 board = RemoveNums(CreateOrigin(),rem)
                 with open(&#39;{}/s{:04d}.sudoku&#39;.format(FOLDER,b), &#39;w&#39;) as file:
                         for row in range(9):

@@ -10,6 +10,8 @@ __External modules__: _None_
 
 _Repository:_ https://github.com/rickfernandes/sudoku_solver
 """
+
+
 def print_grid(grid):
 	"""Function to print the sudoku board with `|` and `-` delimiters.
 
@@ -80,10 +82,10 @@ def possible(row,col,n,grid):
 	of the `grid`
 
 	Args:
-		`row` (int): `grid` row.
-		`col` (int): `grid` column.
-		`n` (int): number to be inserted in `row` and `column` position.
-		`grid` (matrix): valid matrix representing the sudoku board to be printed.
+		`row` (int): `grid` row.\n
+		`col` (int): `grid` column.\n
+		`n` (int): number to be inserted in `row` and `column` position.\n
+		`grid` (matrix): valid matrix representing the sudoku board to be printed.\n
 
 	Dependencies:
 		___None___
@@ -155,11 +157,11 @@ def solve(grid):
 	return solutions
 
 def print_solutions(solutions,qty):
-	"""Function print a certain `qty` of solutions.	
+	"""Function to print a certain `qty` of solutions.	
 	
 	Args:
-		`solutions` (array): array of matrices with all possible solutions for `grid`.
-		`qty` (int): quantity of solutions to be printed.
+		`solutions` (array): array of matrices with all possible solutions for `grid`.\n
+		`qty` (int): quantity of solutions to be printed.\n
 
 	Dependencies:
 		___None___
